@@ -9,7 +9,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("@ir-simulator:token");
+    const token = sessionStorage.getItem("@waitlist-case:token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

@@ -3,8 +3,6 @@ import { Request, Response } from 'express';
 import Users from '@entities/User';
 import emailValidator from '@utils/emailValidator';
 import speakeasy from 'speakeasy';
-import qrcode from 'qrcode';
-import { generateToken } from '@utils/generateToken';
 
 interface UserInterface {
   id?: string;

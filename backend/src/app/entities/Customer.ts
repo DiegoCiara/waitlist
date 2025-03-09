@@ -4,14 +4,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Customer from './Customer';
+import User from './User';
 
-@Entity({ name: 'users' })
-class User extends BaseEntity {
+@Entity({ name: 'customers' })
+class Customer extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -22,16 +23,14 @@ class User extends BaseEntity {
   email!: string;
 
   @Column()
-  passwordHash!: string;
+  phone!: string;
 
-  @Column()
-  secret!: string;
+  @Column({ default: 'waiting' })
+  status!: string;
 
-  @Column({ default: false })
-  has_configured!: boolean;
-
-  @OneToMany(() => Customer, (access) => access.user)
-  customers!: Customer[];
+  @ManyToOne(() => User, (token) => token.customers)
+  @JoinColumn([{ name: 'user', referencedColumnName: 'id' }])
+  user!: User;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -40,7 +39,7 @@ class User extends BaseEntity {
   updatedAt!: Date;
 
   @DeleteDateColumn({ nullable: true })
-  deletedAt!: Date; // Modificação feita aqui para permitir valores nulos
+  deletedAt!: Date;
 }
 
-export default User;
+export default Customer;

@@ -36,3 +36,23 @@ export function getInitials(name: string) {
     parts[0][0].toUpperCase() + parts[1][0].toUpperCase()
   );
 }
+
+
+export function formatPhone(phone: string) {
+  if (phone) {
+    phone = phone.toString();
+    phone = phone.replace(/[^*\d]/g, ''); // Remove tudo o que não é dígito exceto o asterisco
+
+    // Verifica se o número tem 7 ou 8 dígitos após o DDD
+    phone = phone.replace(/^(\d{2})(\d{7,8})$/, (match, ddd, rest) => {
+      if (rest.length === 8 && !rest.startsWith('9')) {
+        return `${ddd}9${rest}`;
+      }
+      return match;
+    });
+
+    phone = phone.replace(/^(\d{2})(\d)/g, '($1) $2'); // Coloca parênteses em volta dos dois primeiros dígitos
+    phone = phone.replace(/(\d)(\d{4})$/, '$1-$2'); // Coloca hífen entre o quarto e o quinto dígitos
+  }
+  return phone;
+}

@@ -4,6 +4,7 @@ import mocks from '../utils/mock';
 
 async function connect() {
   await createConnection(config);
+  await mocks()
 }
 
 connect();
