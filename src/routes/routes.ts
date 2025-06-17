@@ -2,6 +2,7 @@ import Router from 'express';
 import AuthRoutes from './auth.routes';
 import UserRoutes from './user.routes';
 import CustomerRoutes from './customer.routes';
+import ProductRoutes from './product.routes';
 
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
@@ -54,5 +55,6 @@ routes.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 routes.use('/auth/', AuthRoutes);
 routes.use('/user/', UserRoutes);
 routes.use('/customer/', CustomerRoutes);
+routes.use('/product/', ProductRoutes);
 
 export default routes;
