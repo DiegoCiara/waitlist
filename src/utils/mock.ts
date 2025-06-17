@@ -28,7 +28,7 @@ const mocks = async (): Promise<void> => {
         secret: secret.base32,
       }).save();
 
-      // console.log(`Usuário ${usercreated.name}`)
+      console.log(`Usuário ${usercreated.name}`)
     }
 
     for (const product of products ) {

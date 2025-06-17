@@ -139,7 +139,7 @@ class AuthController {
 
       const secret = speakeasy.otpauthURL({
         secret: user.secret,
-        label: `IR Simulator: ${user.email}`,
+        label: `Waitlist: ${user.email}`,
         encoding: 'base32',
       });
 

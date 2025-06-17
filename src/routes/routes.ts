@@ -8,7 +8,7 @@ import swaggerUi from 'swagger-ui-express'
 
 const routes = Router();
 
-const base = { 'API IR Simulator': 'Online' }
+const base = { 'API Waitlist': 'Online' }
 
 routes.get('/', (req, res) => {
   res.json(base);
@@ -20,7 +20,7 @@ const swaggerOptions = {
   definition: {
       openapi: '3.0.0',
       info: {
-          title: 'API IR Simulator',
+          title: 'API Waitlist',
           version: '1.0.0',
           description: 'Documentação da API',
       },

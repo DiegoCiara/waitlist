@@ -135,7 +135,7 @@ class UserController {
       const passwordHash = await bcrypt.hash(password, 10);
 
       const secret = speakeasy.generateSecret({
-        name: `IR Simulator: ${email}`,
+        name: `Waitlist: ${email}`,
       });
 
       const user = await Users.create({
