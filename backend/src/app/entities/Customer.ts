@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import User from './User';
+import Product from './Product';
 
 @Entity({ name: 'customers' })
 class Customer extends BaseEntity {
@@ -28,9 +29,9 @@ class Customer extends BaseEntity {
   @Column({ default: 'waiting' })
   status!: string;
 
-  @ManyToOne(() => User, (token) => token.customers)
-  @JoinColumn([{ name: 'user', referencedColumnName: 'id' }])
-  user!: User;
+  @ManyToOne(() => Product, (token) => token.customers)
+  @JoinColumn([{ name: 'product', referencedColumnName: 'id' }])
+  product!: Product;
 
   @CreateDateColumn()
   createdAt!: Date;

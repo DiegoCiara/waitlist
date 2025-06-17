@@ -13,6 +13,7 @@ services:
   postgres:
     restart: always
     image: postgres:latest
+    container_name: waitlist
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}

@@ -1,15 +1,10 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class createCustomer1631039612323 implements MigrationInterface {
+export class createProduct1631039612321 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'customers',
+        name: 'products',
         columns: [
           {
             name: 'id',
@@ -19,25 +14,8 @@ export class createCustomer1631039612323 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
-            name: 'product',
-            type: 'uuid',
-          },
-          {
             name: 'name',
             type: 'varchar',
-          },
-          {
-            name: 'email',
-            type: 'varchar',
-          },
-          {
-            name: 'phone',
-            type: 'varchar',
-          },
-          {
-            name: 'status',
-            type: 'varchar',
-            default: `'waiting'`,
           },
           {
             name: 'createdAt',
@@ -55,19 +33,11 @@ export class createCustomer1631039612323 implements MigrationInterface {
             isNullable: true,
           },
         ],
-      }),
-    );
-    await queryRunner.createForeignKey(
-      'customers',
-      new TableForeignKey({
-        columnNames: ['product'],
-        referencedTableName: 'products',
-        referencedColumnNames: ['id'],
-      }),
+      })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('customers');
+    await queryRunner.dropTable('products');
   }
 }

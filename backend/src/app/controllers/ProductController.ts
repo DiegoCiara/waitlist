@@ -1,11 +1,8 @@
 import { Request, Response } from 'express';
-import Customer from '@entities/Customer';
 import Product from '@entities/Product';
 
-interface CustomerInterface {
+interface ProductInterface {
   name: string;
-  email: string;
-  phone: string;
   product_id: string
 }
 
@@ -16,7 +13,7 @@ interface CustomerInterface {
  *   description: Operações relativas às declarações
  */
 
-class CustomerController {
+class ProductController {
   /**
    * @swagger
    * /customer:
@@ -55,47 +52,22 @@ class CustomerController {
    */
   public async create(req: Request, res: Response): Promise<void> {
     try {
-      const { name, email, phone, product_id }: CustomerInterface = req.body;
+      const { name }: ProductInterface = req.body;
 
-      if (!name || !product_id ) {
+      if (!name ) {
         res.status(400).json({ message: 'Dados inválidos.' });
         return;
       }
 
-      const product = await Product.findOne(product_id);
 
-      if (!product) {
-        res
-          .status(401)
-          .json({ message: 'Produto não encontrado.' });
-        return;
-      }
-
-      const customer_finded = await Customer.findOne({
-        where: [
-          { email },
-          { phone: phone.replace(/\D/g, '') }, // Normalizando o telefone
-          { product }
-        ],
-      });
-
-      if (customer_finded) {
-        res.status(401).json({ message: 'Você já se cadastrou na lista' });
-        return;
-      }
-
-      const customer = await Customer.create({
+      const product = await Product.create({
         name,
-        email,
-        phone: phone.replace(/\D/g, ''), // Remove tudo que não for número
-        product,
       }).save();
 
-      console.log(`Cliente ${customer.name} criado com sucesso`);
 
       res
         .status(201)
-        .json({ id: customer.id, message: 'Cadastro realizado com sucesso' });
+        .json(product);
     } catch (error) {
       console.error(error);
       res
@@ -129,29 +101,18 @@ class CustomerController {
    *       500:
    *         description: Erro interno
    */
-  public async countUsers(req: Request, res: Response): Promise<void> {
+  public async getProducts(req: Request, res: Response): Promise<void> {
     try {
-      const product_id = req.params.id;
+      const data = await Product.find();
 
-      if (!product_id) {
-        res.status(400).json({ message: 'ID não informado.' });
-        return;
-      }
+      const products = data.map((e) => {
+        return {
+          id: e.id,
+          name: e.name
+        }
+      })
 
-      const product = await Product.findOne(product_id);
-
-      if (!product) {
-        res
-          .status(401)
-          .json({ message: 'Usuário responsável não encontrado.' });
-        return;
-      }
-
-      const customers = await Customer.count({
-        where: { product },
-      });
-
-      res.status(200).json(customers);
+      res.status(200).json(products);
     } catch (error) {
       console.error(error);
       res
@@ -161,4 +122,4 @@ class CustomerController {
   }
 }
 
-export default new CustomerController();
+export default new ProductController();
