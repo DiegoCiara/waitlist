@@ -1,7 +1,8 @@
 import User from '@entities/User';
 import bcrypt from 'bcryptjs';
 import speakeasy from 'speakeasy';
-import { users } from './dataMock';
+import { products, users } from './dataMock';
+import Product from '@entities/Product';
 
 const mocks = async (): Promise<void> => {
   try {
@@ -27,7 +28,16 @@ const mocks = async (): Promise<void> => {
         secret: secret.base32,
       }).save();
 
-      console.log(`Usuário ${usercreated.name}, ${usercreated.id}`)
+      // console.log(`Usuário ${usercreated.name}`)
+    }
+
+    for (const product of products ) {
+
+      const product_created = await Product.create({
+        name: product,
+      }).save();
+
+      console.log(`Produto ${product_created.name}, ${product_created.id}`)
     }
 
   } catch (error) {

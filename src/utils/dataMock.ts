@@ -4,11 +4,11 @@ const users = [
     email: 'diegociara.dev@gmail.com',
     password: 'password',
   },
-  {
-    name: 'João',
-    email: 'joao@infotech.com.br',
-    password: 'password',
-  },
 ];
 
-export { users };
+const products = [
+  'Wave CRM',
+  'Whats AI',
+];
+
+export { users , products };
