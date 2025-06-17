@@ -120,6 +120,54 @@ class ProductController {
         .json({ error: 'Erro interno ao buscar usuário, tente novamente.' });
     }
   }
+
+  /**
+   * @swagger
+   * /customers/count/}:
+   *   get:
+   *     summary: Quantidade de clientes por usuário
+   *     tags: [Usuários]
+   *     responses:
+   *       200:
+   *         description: Usuário encontrado
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                 name:
+   *                   type: string
+   *                 email:
+   *                   type: string
+   *       404:
+   *         description: Usuário não encontrado
+   *       500:
+   *         description: Erro interno
+   */
+  public async delete(req: Request, res: Response): Promise<void> {
+    try {
+
+      const id = req.params.id
+
+      const product = await Product.findOne(id);
+
+      if (!product ) {
+        res.status(400).json({ message: 'Produto não encontrado' });
+        return;
+      }
+
+      await Product.softRemove(product)
+
+      res.status(200).json({ id: product.id, message: 'Produto deletado com sucesso.' });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: 'Erro interno ao buscar usuário, tente novamente.' });
+    }
+  }
 }
 
 export default new ProductController();
