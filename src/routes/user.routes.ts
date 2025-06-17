@@ -7,7 +7,7 @@ import { ensureProfile } from '@middlewares/ensureProfile';
 const routes = Router();
 routes.get('/:id', ensureAuthenticated, ensureProfile, UserController.findUserById);
 routes.put('/:id', ensureAuthenticated, ensureProfile, UserController.update);
-routes.post('/', UserController.create);
+routes.post('/', ensureAuthenticated, UserController.create);
 
 export default routes;
 

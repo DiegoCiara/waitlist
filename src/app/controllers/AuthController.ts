@@ -88,10 +88,11 @@ class AuthController {
       }
 
       res.status(200).json({
-        id: user.id,
+        // id: user.id,
         email: user.email,
         name: user.name,
-        has_configured: user.has_configured,
+        token: generateToken({ id: user.id })
+        // has_configured: user.has_configured,
       });
     } catch (error) {
       console.error(error);

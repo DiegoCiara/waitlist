@@ -73,9 +73,8 @@ class CustomerController {
 
       const customer_finded = await Customer.findOne({
         where: [
-          { email },
-          { phone: phone.replace(/\D/g, '') }, // Normalizando o telefone
-          { product }
+          { email, product },
+          { phone: phone.replace(/\D/g, ''), product }, // Normalizando o telefone
         ],
       });
 
@@ -131,25 +130,25 @@ class CustomerController {
    */
   public async countUsers(req: Request, res: Response): Promise<void> {
     try {
-      const product_id = req.params.id;
 
-      if (!product_id) {
-        res.status(400).json({ message: 'ID não informado.' });
-        return;
-      }
+      const products = await Product.find()
 
-      const product = await Product.findOne(product_id);
-
-      if (!product) {
+      if (!products) {
         res
           .status(401)
-          .json({ message: 'Usuário responsável não encontrado.' });
+          .json({ message: 'Produto não encontrado.' });
         return;
       }
 
-      const customers = await Customer.count({
-        where: { product },
-      });
+      const customers = await Promise.all(
+        products.map(async (product) => {
+          const count = await Customer.count({ where: { product } });
+          return {
+            product: product.name,
+            customers_count: count
+          };
+        })
+      );
 
       res.status(200).json(customers);
     } catch (error) {
