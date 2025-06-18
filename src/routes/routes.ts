@@ -9,7 +9,7 @@ import swaggerUi from 'swagger-ui-express'
 
 const routes = Router();
 
-const base = { 'API Waitlist': 'Online' }
+const base = { 'Waitlist': 'Online' }
 
 routes.get('/', (req, res) => {
   res.json(base);
