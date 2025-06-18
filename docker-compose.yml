@@ -1,19 +1,26 @@
 services:
-  # app:
-  #   image: teste
-  #   build: .
-  #   command: npm run dev
-  #   depends_on:
-  #     - postgres
-  #   ports:
-  #     - '3333:3333'
-  #   volumes:
-  #     - .:/usr/app
+  app:
+    restart: always
+    build: .
+    container_name: "waitlist_app"
+    command: sh -c "yarn build && yarn start"
+    depends_on:
+      - postgres
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - .:/usr/app
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
 
   postgres:
     restart: always
+    container_name: "waitlist_db"
     image: postgres:latest
-    container_name: waitlist
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -22,6 +29,3 @@ services:
       - ./init:/docker-entrypoint-initdb.d
     ports:
       - '${DB_PORT}:5432'
-
-# portas utilizadas:
-# - 5500: wave

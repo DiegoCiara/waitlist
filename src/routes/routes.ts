@@ -15,7 +15,7 @@ routes.get('/', (req, res) => {
   res.json(base);
 });
 
-const port = process.env.CLIENT_PORT
+const port = process.env.APP_PORT
 
 const swaggerOptions = {
   definition: {
