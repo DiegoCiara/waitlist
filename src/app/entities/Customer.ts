@@ -26,6 +26,9 @@ class Customer extends BaseEntity {
   @Column()
   phone!: string;
 
+  @Column({ type: 'jsonb', nullable: true})
+  metadata!: any;
+
   @Column({ default: 'waiting' })
   status!: string;
 

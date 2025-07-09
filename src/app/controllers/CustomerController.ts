@@ -7,6 +7,7 @@ interface CustomerInterface {
   email: string;
   phone: string;
   product_id: string
+  metadata: any
 }
 
 /**
@@ -55,9 +56,9 @@ class CustomerController {
    */
   public async create(req: Request, res: Response): Promise<void> {
     try {
-      const { name, email, phone, product_id }: CustomerInterface = req.body;
+      const { name, email, phone, product_id, metadata }: CustomerInterface = req.body;
 
-      if (!name || !product_id ) {
+      if (!name || !product_id|| !phone ) {
         res.status(400).json({ message: 'Dados inválidos.' });
         return;
       }
@@ -85,9 +86,10 @@ class CustomerController {
 
       const customer = await Customer.create({
         name,
-        email,
+        email: email || '',
         phone: phone.replace(/\D/g, ''), // Remove tudo que não for número
         product,
+        metadata,
       }).save();
 
       console.log(`Cliente ${customer.name} criado com sucesso`);
@@ -128,10 +130,12 @@ class CustomerController {
    *       500:
    *         description: Erro interno
    */
-  public async countUsers(req: Request, res: Response): Promise<void> {
+  public async getUsers(req: Request, res: Response): Promise<void> {
     try {
 
-      const products = await Product.find()
+      const id = req.params.id
+
+      const products = await Product.findOne(id, { relations: ['customers' ]})
 
       if (!products) {
         res
@@ -140,17 +144,7 @@ class CustomerController {
         return;
       }
 
-      const customers = await Promise.all(
-        products.map(async (product) => {
-          const count = await Customer.count({ where: { product } });
-          return {
-            product: product.name,
-            customers_count: count
-          };
-        })
-      );
-
-      res.status(200).json(customers);
+      res.status(200).json(products.customers);
     } catch (error) {
       console.error(error);
       res

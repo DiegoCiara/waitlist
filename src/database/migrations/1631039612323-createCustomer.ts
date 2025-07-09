@@ -35,6 +35,11 @@ export class createCustomer1631039612323 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'metadata',
+            type: 'jsonb',
+            isNullable: true,
+          },
+          {
             name: 'status',
             type: 'varchar',
             default: `'waiting'`,

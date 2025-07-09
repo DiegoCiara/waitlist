@@ -5,6 +5,6 @@ import { ensureAuthenticated } from '@middlewares/ensureAuthenticated';
 const routes = Router();
 
 routes.post('/', CustomerController.create);
-routes.get('/count/', ensureAuthenticated, CustomerController.countUsers);
+routes.get('/:id', ensureAuthenticated, CustomerController.getUsers);
 
 export default routes;
